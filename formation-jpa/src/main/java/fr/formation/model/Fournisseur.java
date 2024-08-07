@@ -1,10 +1,13 @@
 package fr.formation.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,4 +25,8 @@ public class Fournisseur {
 
     @Column(length = 50, nullable = false)
     private String name;
+
+    // @OneToMany(mappedBy = "fournisseur", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "fournisseur")
+    private List<Produit> produits;
 }
