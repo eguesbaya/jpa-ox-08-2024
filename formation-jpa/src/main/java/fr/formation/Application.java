@@ -20,26 +20,21 @@ public class Application {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("FormationUnit");
         EntityManager em = emf.createEntityManager();
 
-        // Produit produit = Produit.builder()
-        //     .id(2000)
-        //     .name("From JAVA 2233")
-        //     // .price(new BigDecimal("1.15"))
-        //     // .date(LocalDate.now())
-        //     // .type(Type.BUSINESS)
-        //     .build()
-        // ;
-
-        // Produit produit = em.find(Produit.class, 1);
+        Produit produit = Produit.builder()
+            .name("From JAVA 2233")
+            // .price(new BigDecimal("1.15"))
+            // .date(LocalDate.now())
+            // .type(Type.BUSINESS)
+            .build()
+        ;
 
         // System.out.println(produit.getId());
         
-        // em.getTransaction().begin();
+        em.getTransaction().begin();
         
-        // // em.persist(produit);
-        // // produit = em.merge(produit);
-        // em.remove(produit);
+        em.persist(produit);
 
-        // em.getTransaction().commit();
+        em.getTransaction().commit();
 
         // // em.getTransaction().begin();
 
@@ -52,11 +47,11 @@ public class Application {
         // System.out.println(produit.getId());
 
         // insertFournisseur(em);
-        // findAllProduits(em);
+        findAllProduits(em);
         // insertProduitAvecFournisseur(em);
         // findProduitById(em, 13);
         // findFournisseurById(em, 1);
-        insertCommande(em);
+        // insertCommande(em);
         
         emf.close();
     }
