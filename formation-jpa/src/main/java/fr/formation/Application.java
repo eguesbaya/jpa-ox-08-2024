@@ -2,8 +2,12 @@ package fr.formation;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.swing.text.html.parser.Entity;
+
+import fr.formation.model.Commande;
 import fr.formation.model.Fournisseur;
 import fr.formation.model.Produit;
 import fr.formation.model.Produit.Type;
@@ -51,8 +55,9 @@ public class Application {
         // findAllProduits(em);
         // insertProduitAvecFournisseur(em);
         // findProduitById(em, 13);
-        findFournisseurById(em, 1);
-
+        // findFournisseurById(em, 1);
+        insertCommande(em);
+        
         emf.close();
     }
 
@@ -90,6 +95,23 @@ public class Application {
         em.getTransaction().begin();
 
         em.persist(produit);
+
+        em.getTransaction().commit();
+    }
+
+    public static void insertCommande(EntityManager em) {
+        Produit produit1 = em.find(Produit.class, 13);
+        Produit produit2 = Produit.builder().id(11).build();
+
+        Commande commande = Commande.builder()
+            .date(LocalDateTime.now())
+            .produits(List.of(produit1, produit2))
+            .build()
+        ;
+
+        em.getTransaction().begin();
+
+        em.persist(commande);
 
         em.getTransaction().commit();
     }
