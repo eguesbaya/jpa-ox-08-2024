@@ -40,7 +40,7 @@ public class Produit {
 
     // @Temporal
     // private Date date;
-    
+
     private LocalDate date;
 
     public enum Type {
