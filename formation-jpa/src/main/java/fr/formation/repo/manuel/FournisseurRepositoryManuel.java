@@ -7,6 +7,7 @@ import fr.formation.model.Fournisseur;
 import fr.formation.repo.FournisseurRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 public class FournisseurRepositoryManuel extends AbstractRepositoryManuel implements FournisseurRepository {
@@ -24,8 +25,20 @@ public class FournisseurRepositoryManuel extends AbstractRepositoryManuel implem
 
     @Override
     public Optional<Fournisseur> findById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Fournisseur> cq = cb.createQuery(Fournisseur.class);
+
+        Root<Fournisseur> root = cq.from(Fournisseur.class);
+
+        cq.select(root);
+
+        Predicate equalsId = cb.equal(root.get("id"), id);
+
+        cq.where(equalsId);
+
+        return Optional.ofNullable(
+            em.createQuery(cq).getSingleResult()
+        );
     }
 
     @Override

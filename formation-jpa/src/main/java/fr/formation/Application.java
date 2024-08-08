@@ -65,6 +65,7 @@ public class Application {
         // Test CriteriaQuery
         System.out.println("-- CRITERIA QUERY --");
         fournisseurRepository.findAll();
+        fournisseurRepository.findById(1);
 
         AbstractRepositoryManuel.close();
 
