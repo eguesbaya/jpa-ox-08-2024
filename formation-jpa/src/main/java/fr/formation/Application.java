@@ -11,18 +11,27 @@ import fr.formation.model.Commande;
 import fr.formation.model.Commentaire;
 import fr.formation.model.Fournisseur;
 import fr.formation.model.Produit;
+import fr.formation.model.Produit.Type;
 import fr.formation.model.Reparateur;
 import fr.formation.model.Reparation;
 import fr.formation.model.ReparationId;
-import fr.formation.model.Produit.Type;
+import fr.formation.repo.ProduitRepository;
+import fr.formation.repo.manuel.AbstractRepositoryManuel;
+import fr.formation.repo.manuel.ProduitRepositoryManuel;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 
 public class Application {
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("FormationUnit");
-        EntityManager em = emf.createEntityManager();
+        ProduitRepository produitRepository = new ProduitRepositoryManuel();
+
+        for (Produit produit : produitRepository.findAll()) {
+            System.out.println(produit.getName());
+        }
+
+        AbstractRepositoryManuel.close();
+
+        // EntityManagerFactory emf = Persistence.createEntityManagerFactory("FormationUnit");
+        // EntityManager em = emf.createEntityManager();
 
         // insertProduit(em);
         // insertFournisseur(em);
@@ -39,7 +48,7 @@ public class Application {
         // insertReparateur(em);
         // insertReparation(em);
 
-        emf.close();
+        // emf.close();
     }
 
     public static void insertProduit(EntityManager em) {
