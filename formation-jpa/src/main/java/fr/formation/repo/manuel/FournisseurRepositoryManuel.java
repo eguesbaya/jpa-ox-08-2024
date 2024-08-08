@@ -32,9 +32,18 @@ public class FournisseurRepositoryManuel extends AbstractRepositoryManuel implem
 
         cq.select(root);
 
+        Predicate greaterThanZero = cb.greaterThan(root.get("id"), 0);
         Predicate equalsId = cb.equal(root.get("id"), id);
 
-        cq.where(equalsId);
+        Predicate andId = cb.and(greaterThanZero, equalsId);
+
+        Predicate nameStartsWith = cb.like(root.get("name"), "AM%");
+
+        Predicate idOrName = cb.or(andId, nameStartsWith);
+
+        // cq.where(equalsId);
+        // cq.where(andId);
+        cq.where(idOrName);
 
         return Optional.ofNullable(
             em.createQuery(cq).getSingleResult()
