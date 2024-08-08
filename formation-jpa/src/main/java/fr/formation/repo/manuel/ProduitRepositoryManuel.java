@@ -26,7 +26,7 @@ public class ProduitRepositoryManuel extends AbstractRepositoryManuel implements
         // return Optional.ofNullable(produit);
 
         // Solution 3
-        Produit produit = em    .createQuery("select p from Produit p left join fetch p.fournisseur f where p.id = :identifiant", Produit.class)
+        Produit produit = em    .createQuery("select p from Produit p where p.id = :identifiant", Produit.class)
                                 .setParameter("identifiant", id)
                                 .getSingleResult();
 
