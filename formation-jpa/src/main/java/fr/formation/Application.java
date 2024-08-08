@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import fr.formation.model.Adresse;
 import fr.formation.model.Client;
@@ -24,8 +25,19 @@ public class Application {
     public static void main(String[] args) {
         ProduitRepository produitRepository = new ProduitRepositoryManuel();
 
-        for (Produit produit : produitRepository.findAll()) {
-            System.out.println(produit.getName());
+        // for (Produit produit : produitRepository.findAll()) {
+        //     System.out.println(produit.getName());
+        // }
+
+        Optional<Produit> optProduit = produitRepository.findById(13);
+
+        if (optProduit.isPresent()) {
+            System.out.println(optProduit.get().getName());
+            System.out.println(optProduit.get().getFournisseur().getName());
+        }
+
+        else {
+            System.out.println("Produit non trouvé !");
         }
 
         AbstractRepositoryManuel.close();

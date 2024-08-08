@@ -15,7 +15,22 @@ public class ProduitRepositoryManuel extends AbstractRepositoryManuel implements
 
     @Override
     public Optional<Produit> findById(Integer id) {
-        return Optional.ofNullable(em.find(Produit.class, id));
+        // Solution 1
+        // return Optional.ofNullable(em.find(Produit.class, id));
+
+        // Solution 2
+        // Produit produit = em    .createQuery("select p from Produit p where p.id = ?1", Produit.class)
+        //                         .setParameter(1, id)
+        //                         .getSingleResult();
+
+        // return Optional.ofNullable(produit);
+
+        // Solution 3
+        Produit produit = em    .createQuery("select p from Produit p left join fetch p.fournisseur f where p.id = :identifiant", Produit.class)
+                                .setParameter("identifiant", id)
+                                .getSingleResult();
+
+        return Optional.ofNullable(produit);
     }
 
     @Override
