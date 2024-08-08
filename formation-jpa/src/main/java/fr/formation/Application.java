@@ -17,9 +17,11 @@ import fr.formation.model.Reparateur;
 import fr.formation.model.Reparation;
 import fr.formation.model.ReparationId;
 import fr.formation.repo.CommentaireRepository;
+import fr.formation.repo.FournisseurRepository;
 import fr.formation.repo.ProduitRepository;
 import fr.formation.repo.manuel.AbstractRepositoryManuel;
 import fr.formation.repo.manuel.CommentaireRepositoryManuel;
+import fr.formation.repo.manuel.FournisseurRepositoryManuel;
 import fr.formation.repo.manuel.ProduitRepositoryManuel;
 import jakarta.persistence.EntityManager;
 
@@ -27,6 +29,7 @@ public class Application {
     public static void main(String[] args) {
         ProduitRepository produitRepository = new ProduitRepositoryManuel();
         CommentaireRepository commentaireRepository = new CommentaireRepositoryManuel();
+        FournisseurRepository fournisseurRepository = new FournisseurRepositoryManuel();
 
         // for (Produit produit : produitRepository.findAll()) {
         //     System.out.println(produit.getName());
@@ -45,6 +48,10 @@ public class Application {
 
         for (Commentaire commentaire : commentaireRepository.findAllByClientAdresse("75000")) {
             System.out.println(commentaire.getNote() + " - " + commentaire.getTexte());
+        }
+
+        for (Fournisseur fournisseur : fournisseurRepository.findAllByProduitCommentaireNote(2)) {
+            System.out.println(fournisseur.getName());
         }
 
         AbstractRepositoryManuel.close();
