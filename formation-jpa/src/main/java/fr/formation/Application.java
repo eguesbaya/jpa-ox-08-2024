@@ -5,9 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.swing.text.html.parser.Entity;
-
+import fr.formation.model.Adresse;
+import fr.formation.model.Client;
 import fr.formation.model.Commande;
+import fr.formation.model.Commentaire;
 import fr.formation.model.Fournisseur;
 import fr.formation.model.Produit;
 import fr.formation.model.Produit.Type;
@@ -20,15 +21,31 @@ public class Application {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("FormationUnit");
         EntityManager em = emf.createEntityManager();
 
+        // insertProduit(em);
+        // insertFournisseur(em);
+        // findAllProduits(em);
+        // insertProduitAvecFournisseur(em);
+        // findProduitById(em, 13);
+        // findFournisseurById(em, 1);
+        // insertCommande(em);
+        
+        // insertAdresse(em);
+        // insertClient(em);
+        // insertCommentaire(em);
+
+        emf.close();
+    }
+
+    public static void insertProduit(EntityManager em) {
         Produit produit = Produit.builder()
             .name("From JAVA 2233")
-            // .price(new BigDecimal("1.15"))
-            // .date(LocalDate.now())
-            // .type(Type.BUSINESS)
+            .price(new BigDecimal("1.15"))
+            .date(LocalDate.now())
+            .type(Type.BUSINESS)
             .build()
         ;
 
-        // System.out.println(produit.getId());
+        System.out.println(produit.getId());
         
         em.getTransaction().begin();
         
@@ -36,24 +53,7 @@ public class Application {
 
         em.getTransaction().commit();
 
-        // // em.getTransaction().begin();
-
-        // // produit.setName("PRODUIT MODIFIE");
-        
-        // // em.merge(produit);
-
-        // // em.getTransaction().commit();
-        
-        // System.out.println(produit.getId());
-
-        // insertFournisseur(em);
-        findAllProduits(em);
-        // insertProduitAvecFournisseur(em);
-        // findProduitById(em, 13);
-        // findFournisseurById(em, 1);
-        // insertCommande(em);
-        
-        emf.close();
+        System.out.println(produit.getId());
     }
 
     public static void insertFournisseur(EntityManager em) {
@@ -128,5 +128,57 @@ public class Application {
             .getResultList();
 
         System.out.println("J'ai " + produits.size() + " produits en base !");
+    }
+
+
+    public static void insertAdresse(EntityManager em) {
+        Adresse adresse = Adresse.builder()
+            .rue("6 Rue des Environs")
+            .codePostal("53000")
+            .ville("LAVAL")
+            .build()
+        ;
+
+        em.getTransaction().begin();
+
+        em.persist(adresse);
+
+        em.getTransaction().commit();
+    }
+
+    public static void insertClient(EntityManager em) {
+        Adresse adresse = em.find(Adresse.class, "be73bead-6750-4ff2-ae06-1dfae6afd0c9");
+
+        Client client = Client.builder()
+            .nom("PERROUAULT")
+            .email("jeremy@oxiane.fr")
+            .adresseLivraison(adresse)
+            .build()
+        ;
+
+        em.getTransaction().begin();
+
+        em.persist(client);
+
+        em.getTransaction().commit();
+    }
+
+    public static void insertCommentaire(EntityManager em) {
+        Client client = em.find(Client.class, 1);
+        Produit produit = em.find(Produit.class, 11);
+
+        Commentaire commentaire = Commentaire.builder()
+            .date(LocalDateTime.now())
+            .texte("Super produit !")
+            .client(client)
+            .produit(produit)
+            .build()
+        ;
+
+        em.getTransaction().begin();
+
+        em.persist(commentaire);
+
+        em.getTransaction().commit();
     }
 }
