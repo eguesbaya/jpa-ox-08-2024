@@ -61,6 +61,11 @@ public class Application {
             System.out.println(reparation.getId().getProduit().getName());
         }
 
+
+        // Test CriteriaQuery
+        System.out.println("-- CRITERIA QUERY --");
+        fournisseurRepository.findAll();
+
         AbstractRepositoryManuel.close();
 
         // EntityManagerFactory emf = Persistence.createEntityManagerFactory("FormationUnit");

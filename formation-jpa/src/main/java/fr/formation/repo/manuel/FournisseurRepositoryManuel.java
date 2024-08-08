@@ -5,12 +5,21 @@ import java.util.Optional;
 
 import fr.formation.model.Fournisseur;
 import fr.formation.repo.FournisseurRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 public class FournisseurRepositoryManuel extends AbstractRepositoryManuel implements FournisseurRepository {
     @Override
     public List<Fournisseur> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Fournisseur> cq = cb.createQuery(Fournisseur.class);
+
+        Root<Fournisseur> root = cq.from(Fournisseur.class);
+
+        cq.select(root);
+
+        return em.createQuery(cq).getResultList();
     }
 
     @Override
