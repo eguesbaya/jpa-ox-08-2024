@@ -15,19 +15,49 @@ public class ProduitRepositoryManuel extends AbstractRepositoryManuel implements
 
     @Override
     public Optional<Produit> findById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        return Optional.ofNullable(em.find(Produit.class, id));
     }
 
     @Override
     public Produit save(Produit entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        em.getTransaction().begin();
+
+        try {
+            if (entity.getId() > 0) { // UPDATE
+                entity = em.merge(entity);
+            }
+
+            else { // INSERT
+                em.persist(entity);
+            }
+
+            em.getTransaction().commit();
+        }
+
+        catch (Exception ex) {
+            em.getTransaction().rollback();
+        }
+
+        return entity;
     }
 
     @Override
     public void deleteById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+        em.getTransaction().begin();
+
+        try {
+            // Solution 1
+            // Produit produit = Produit.builder().id(id).build();
+            // em.remove(em.merge(produit));
+
+            // Solution 2
+            this.findById(id).ifPresent(em::remove);
+
+            em.getTransaction().commit();
+        }
+
+        catch (Exception ex) {
+            em.getTransaction().rollback();
+        }
     }
 }
