@@ -11,6 +11,9 @@ import fr.formation.model.Commande;
 import fr.formation.model.Commentaire;
 import fr.formation.model.Fournisseur;
 import fr.formation.model.Produit;
+import fr.formation.model.Reparateur;
+import fr.formation.model.Reparation;
+import fr.formation.model.ReparationId;
 import fr.formation.model.Produit.Type;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -32,6 +35,9 @@ public class Application {
         // insertAdresse(em);
         // insertClient(em);
         // insertCommentaire(em);
+
+        // insertReparateur(em);
+        // insertReparation(em);
 
         emf.close();
     }
@@ -130,7 +136,6 @@ public class Application {
         System.out.println("J'ai " + produits.size() + " produits en base !");
     }
 
-
     public static void insertAdresse(EntityManager em) {
         Adresse adresse = Adresse.builder()
             .rue("6 Rue des Environs")
@@ -178,6 +183,42 @@ public class Application {
         em.getTransaction().begin();
 
         em.persist(commentaire);
+
+        em.getTransaction().commit();
+    }
+
+    public static void insertReparateur(EntityManager em) {
+        Reparateur reparateur = Reparateur.builder()
+            .nom("OXIANE")
+            .build()
+        ;
+
+        em.getTransaction().begin();
+
+        em.persist(reparateur);
+
+        em.getTransaction().commit();
+    }
+
+    public static void insertReparation(EntityManager em) {
+        Produit produit = em.find(Produit.class, 11);
+        Reparateur reparateur = em.find(Reparateur.class, 1);
+
+        Reparation reparation = Reparation.builder()
+            .id(
+                ReparationId.builder()
+                    .produit(produit)
+                    .reparateur(reparateur)
+                    .date(LocalDate.now())
+                   .build()
+            )
+            .resume("Réparation de test")
+            .build()
+        ;
+
+        em.getTransaction().begin();
+
+        em.persist(reparation);
 
         em.getTransaction().commit();
     }
