@@ -1,10 +1,15 @@
 package fr.formation.repo.manuel;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import fr.formation.model.Produit;
 import fr.formation.repo.ProduitRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 
 public class ProduitRepositoryManuel extends AbstractRepositoryManuel implements ProduitRepository {
     @Override
@@ -74,5 +79,24 @@ public class ProduitRepositoryManuel extends AbstractRepositoryManuel implements
         catch (Exception ex) {
             em.getTransaction().rollback();
         }
+    }
+
+    @Override
+    public List<Produit> findAllByPriceBetween(BigDecimal a, BigDecimal b) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Produit> cq = cb.createQuery(Produit.class);
+        Root<Produit> root = cq.from(Produit.class);
+
+        // Predicate fromA = cb.greaterThanOrEqualTo(root.get("price"), a);
+        // Predicate fromB = cb.lessThanOrEqualTo(root.get("price"), b);
+        // Predicate between = cb.and(fromA, fromB);
+
+        Predicate between = cb.between(root.get("price"), a, b);
+
+        cq  .select(root)
+            .where(between)
+        ;
+
+        return em.createQuery(cq).getResultList();
     }
 }

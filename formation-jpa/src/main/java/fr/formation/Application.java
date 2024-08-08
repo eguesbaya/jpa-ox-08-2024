@@ -67,6 +67,9 @@ public class Application {
         fournisseurRepository.findAll();
         fournisseurRepository.findById(1);
 
+        List<Produit> produits = produitRepository.findAllByPriceBetween(new BigDecimal("30"), new BigDecimal("50"));
+        System.out.println(produits.size());
+        
         AbstractRepositoryManuel.close();
 
         // EntityManagerFactory emf = Persistence.createEntityManagerFactory("FormationUnit");
