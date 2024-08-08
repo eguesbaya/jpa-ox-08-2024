@@ -7,6 +7,7 @@ import fr.formation.model.Fournisseur;
 import fr.formation.repo.FournisseurRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
@@ -31,6 +32,9 @@ public class FournisseurRepositoryManuel extends AbstractRepositoryManuel implem
         Root<Fournisseur> root = cq.from(Fournisseur.class);
 
         cq.select(root);
+
+        // root.join("produits", JoinType.LEFT);
+        root.fetch("produits", JoinType.LEFT);
 
         Predicate greaterThanZero = cb.greaterThan(root.get("id"), 0);
         Predicate equalsId = cb.equal(root.get("id"), id);
