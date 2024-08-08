@@ -69,6 +69,9 @@ public class Application {
 
         List<Produit> produits = produitRepository.findAllByPriceBetween(new BigDecimal("30"), new BigDecimal("50"));
         System.out.println(produits.size());
+
+        produits = produitRepository.findAllByFournisseurId(1);
+        System.out.println(produits.size());
         
         AbstractRepositoryManuel.close();
 

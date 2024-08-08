@@ -99,4 +99,19 @@ public class ProduitRepositoryManuel extends AbstractRepositoryManuel implements
 
         return em.createQuery(cq).getResultList();
     }
+
+    @Override
+    public List<Produit> findAllByFournisseurId(int id) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Produit> cq = cb.createQuery(Produit.class);
+        Root<Produit> root = cq.from(Produit.class);
+
+        Predicate idEquals = cb.equal(root.get("fournisseur").get("id"), id);
+
+        cq  .select(root)
+            .where(idEquals)
+        ;
+
+        return em.createQuery(cq).getResultList();
+    }
 }

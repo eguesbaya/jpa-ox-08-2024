@@ -7,4 +7,5 @@ import fr.formation.model.Produit;
 
 public interface ProduitRepository extends Repository<Produit, Integer> {
     public List<Produit> findAllByPriceBetween(BigDecimal a, BigDecimal b);
+    public List<Produit> findAllByFournisseurId(int id);
 }
