@@ -10,6 +10,7 @@ import fr.formation.model.Produit;
 import fr.formation.repo.ProduitRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 @Repository
 public class ProduitRepositorySpring implements ProduitRepository {
@@ -28,9 +29,17 @@ public class ProduitRepositorySpring implements ProduitRepository {
     }
 
     @Override
+    @Transactional
     public Produit save(Produit entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        if (entity.getId() > 0) { // UPDATE
+            entity = em.merge(entity);
+        }
+
+        else { // INSERT
+            em.persist(entity);
+        }
+
+        return entity;
     }
 
     @Override
