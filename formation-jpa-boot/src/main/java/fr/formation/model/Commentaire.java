@@ -30,7 +30,7 @@ public class Commentaire {
     private LocalDateTime date;
 
     @Column(name = "com_texte", columnDefinition = "TEXT")
-    @Lob
+    // @Lob
     private String texte;
 
     @Column(name = "com_note", nullable = false)

@@ -3,8 +3,10 @@ package fr.formation;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import fr.formation.model.Commentaire;
 import fr.formation.model.Fournisseur;
 import fr.formation.model.Produit;
+import fr.formation.repo.CommentaireRepository;
 import fr.formation.repo.FournisseurRepository;
 import fr.formation.repo.ProduitRepository;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ public class Application implements CommandLineRunner {
 
     private final ProduitRepository produitRepository;
     private final FournisseurRepository fournisseurRepository;
+    private final CommentaireRepository commentaireRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -29,5 +32,9 @@ public class Application implements CommandLineRunner {
         for (Fournisseur fournisseur : this.fournisseurRepository.findAll()) {
             log.debug("Le fournisseur = {}", fournisseur.getName());
         }
+
+        this.commentaireRepository.findAllByClientAdresseLivraisonCodePostal("75000").forEach(commentaire -> {
+            log.debug("Le commentaire = {}", commentaire.getTexte());
+        });
     }
 }
