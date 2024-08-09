@@ -3,11 +3,12 @@ package fr.formation.repo;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import fr.formation.model.Fournisseur;
 
-public interface FournisseurRepository extends JpaRepository<Fournisseur, Integer> {
+public interface FournisseurRepository extends JpaRepository<Fournisseur, Integer>, JpaSpecificationExecutor<Fournisseur> {
     public List<Fournisseur> findAllByProduitsCommentairesNote(int note);
 
     public List<Fournisseur> findByIdInAndNameIsNull(List<Integer> ids);

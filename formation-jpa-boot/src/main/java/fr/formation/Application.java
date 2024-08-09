@@ -3,6 +3,7 @@ package fr.formation;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import fr.formation.model.Fournisseur;
@@ -39,6 +40,8 @@ public class Application implements CommandLineRunner {
         });
 
 
+        // ---- EXAMPLE
+
         Fournisseur fournisseur = Fournisseur.builder().id(50).build();
         
         ExampleMatcher matcher = ExampleMatcher.matching()
@@ -52,5 +55,14 @@ public class Application implements CommandLineRunner {
         for (Fournisseur f : this.fournisseurRepository.findAll(example)) {
             log.debug("{} - {}", f.getId(), f.getName());
         }
+
+
+        // ---- CRITERIA API
+
+        Specification<Fournisseur> specFournisseur = (root, cq, cb) -> {
+            return cb.equal(root.get("name"), "AMAZON");
+        };
+
+        this.fournisseurRepository.findAll(specFournisseur);
     }
 }
