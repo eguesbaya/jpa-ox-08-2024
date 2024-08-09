@@ -77,5 +77,10 @@ public class Application implements CommandLineRunner {
         // ---- CUSTOM REPOSITORY
 
         this.fournisseurRepository.findByCustom(1);
+
+
+
+        this.produitRepository.findAllByFournisseurId(1);
+        this.produitRepository.findAllByPriceBetween(new BigDecimal("30"), new BigDecimal("50"));
     }
 }

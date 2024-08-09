@@ -1,4 +1,4 @@
-package fr.formation.repo;
+package fr.formation.repo.custom;
 
 import java.util.Optional;
 

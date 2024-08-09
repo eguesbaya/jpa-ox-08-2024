@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import fr.formation.model.Fournisseur;
+import fr.formation.repo.custom.CustomFournisseurRepository;
 
 public interface FournisseurRepository extends JpaRepository<Fournisseur, Integer>, JpaSpecificationExecutor<Fournisseur>, CustomFournisseurRepository {
     public List<Fournisseur> findAllByProduitsCommentairesNote(int note);
