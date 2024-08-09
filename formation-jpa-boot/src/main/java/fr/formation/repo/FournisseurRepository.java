@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import fr.formation.model.Fournisseur;
 
-public interface FournisseurRepository extends JpaRepository<Fournisseur, Integer>, JpaSpecificationExecutor<Fournisseur> {
+public interface FournisseurRepository extends JpaRepository<Fournisseur, Integer>, JpaSpecificationExecutor<Fournisseur>, CustomFournisseurRepository {
     public List<Fournisseur> findAllByProduitsCommentairesNote(int note);
 
     public List<Fournisseur> findByIdInAndNameIsNull(List<Integer> ids);

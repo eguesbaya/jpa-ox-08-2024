@@ -73,5 +73,9 @@ public class Application implements CommandLineRunner {
         this.produitRepository.findAll(specProduit);
 
         this.produitRepository.findAllByFournisseurId(1);
+
+        // ---- CUSTOM REPOSITORY
+
+        this.fournisseurRepository.findByCustom(1);
     }
 }
