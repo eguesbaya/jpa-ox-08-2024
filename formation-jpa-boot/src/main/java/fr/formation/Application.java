@@ -1,9 +1,10 @@
 package fr.formation;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Component;
 
-import fr.formation.model.Commentaire;
 import fr.formation.model.Fournisseur;
 import fr.formation.model.Produit;
 import fr.formation.repo.CommentaireRepository;
@@ -36,5 +37,20 @@ public class Application implements CommandLineRunner {
         this.commentaireRepository.findAllByClientAdresseLivraisonCodePostal("75000").forEach(commentaire -> {
             log.debug("Le commentaire = {}", commentaire.getTexte());
         });
+
+
+        Fournisseur fournisseur = Fournisseur.builder().id(50).build();
+        
+        ExampleMatcher matcher = ExampleMatcher.matching()
+            // .withMatcher("produits", match -> match.)
+            .withIncludeNullValues()
+        ;
+
+        // Example<Fournisseur> example = Example.of(fournisseur);
+        Example<Fournisseur> example = Example.of(fournisseur, matcher);
+
+        for (Fournisseur f : this.fournisseurRepository.findAll(example)) {
+            log.debug("{} - {}", f.getId(), f.getName());
+        }
     }
 }
