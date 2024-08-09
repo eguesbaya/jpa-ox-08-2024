@@ -1,5 +1,7 @@
 package fr.formation;
 
+import java.math.BigDecimal;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -64,5 +66,12 @@ public class Application implements CommandLineRunner {
         };
 
         this.fournisseurRepository.findAll(specFournisseur);
+
+
+        Specification<Produit> specProduit = (root, cq, cb) -> cb.between(root.get("price"), new BigDecimal("30"), new BigDecimal("50"));
+
+        this.produitRepository.findAll(specProduit);
+
+        this.produitRepository.findAllByFournisseurId(1);
     }
 }
